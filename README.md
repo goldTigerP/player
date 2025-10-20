@@ -66,6 +66,14 @@ scripts\setup_vscode.bat
 
 详细配置说明请参考：[VS Code 配置指南](.vscode/SETUP.md)
 
+#### 代码格式化
+项目已配置自动代码格式化：
+- **Tab 大小**: 4 个空格（自动转换）
+- **保存时自动格式化**: 已启用
+- **格式化工具**: clang-format (Google 风格)
+
+详细说明请查看：[代码格式化配置](docs/CODE_FORMAT.md)
+
 ## 安装和编译
 
 ### Ubuntu/Debian 依赖安装

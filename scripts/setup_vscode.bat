@@ -76,7 +76,16 @@ echo     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools", >> .vsc
 echo     "C_Cpp.default.intelliSenseMode": "windows-msvc-x64", >> .vscode\settings.json
 echo     "C_Cpp.default.cppStandard": "c++17", >> .vscode\settings.json
 echo     "C_Cpp.default.compilerPath": "cl.exe", >> .vscode\settings.json
-echo     "C_Cpp.errorSquiggles": "enabled" >> .vscode\settings.json
+echo     "C_Cpp.errorSquiggles": "enabled", >> .vscode\settings.json
+echo     "editor.tabSize": 4, >> .vscode\settings.json
+echo     "editor.insertSpaces": true, >> .vscode\settings.json
+echo     "editor.detectIndentation": false, >> .vscode\settings.json
+echo     "editor.formatOnSave": true, >> .vscode\settings.json
+echo     "editor.formatOnPaste": true, >> .vscode\settings.json
+echo     "editor.formatOnType": true, >> .vscode\settings.json
+echo     "C_Cpp.formatting": "clangFormat", >> .vscode\settings.json
+echo     "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, UseTab: Never, ColumnLimit: 100, AllowShortFunctionsOnASingleLine: None, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false }", >> .vscode\settings.json
+echo     "C_Cpp.clang_format_fallbackStyle": "Google" >> .vscode\settings.json
 echo } >> .vscode\settings.json
 
 echo ✅ VS Code 配置文件生成完成！

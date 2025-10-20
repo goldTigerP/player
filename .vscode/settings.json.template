@@ -17,6 +17,23 @@
     "C_Cpp.default.compilerPath": "/usr/bin/g++",
     "C_Cpp.errorSquiggles": "enabled",
     
+    // 代码格式化设置
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    
+    // C++ 特定格式化设置
+    "C_Cpp.formatting": "clangFormat",
+    "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, UseTab: Never, ColumnLimit: 100, AllowShortFunctionsOnASingleLine: None, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false }",
+    "C_Cpp.clang_format_fallbackStyle": "Google",
+    
+    // CMake 格式化设置
+    "cmake.format.allowOptionalArgumentIndentation": true,
+    "cmake.format.maxSubgroupsHwrap": 2,
+    
     "_comment": "以下是 Windows 用户的参考配置，请根据需要取消注释并修改：",
     "_cmake.generator_windows": "Visual Studio 16 2019",
     "_C_Cpp.default.intelliSenseMode_windows": "windows-msvc-x64",

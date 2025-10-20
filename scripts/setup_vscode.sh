@@ -115,6 +115,20 @@ cat > .vscode/settings.json << EOF
     "C_Cpp.default.cppStandard": "c++17",
     "C_Cpp.default.compilerPath": "/usr/bin/g++",
     "C_Cpp.errorSquiggles": "enabled",
+    
+    // 代码格式化设置
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    
+    // C++ 特定格式化设置
+    "C_Cpp.formatting": "clangFormat",
+    "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, UseTab: Never, ColumnLimit: 100, AllowShortFunctionsOnASingleLine: None, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false }",
+    "C_Cpp.clang_format_fallbackStyle": "Google",
+    
     "files.exclude": {
         "build/": true,
         "**/*.o": true,

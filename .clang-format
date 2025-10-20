@@ -1,0 +1,82 @@
+# Clang-format 格式化配置
+# 基于 Google 风格，但自定义了缩进为 4 个空格
+
+BasedOnStyle: Google
+
+# 缩进设置
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# 列宽限制
+ColumnLimit: 100
+
+# 函数格式化
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+
+# 大括号设置
+BreakBeforeBraces: Attach
+Cpp11BracedListStyle: true
+
+# 指针和引用对齐
+PointerAlignment: Left
+
+# 访问说明符缩进
+AccessModifierOffset: -2
+
+# 命名空间缩进
+NamespaceIndentation: None
+
+# 构造函数初始化列表
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+
+# 尾随逗号
+InsertTrailingCommas: None
+
+# 排序 includes
+SortIncludes: true
+IncludeBlocks: Preserve
+
+# 空行
+MaxEmptyLinesToKeep: 2
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# 二进制操作符换行
+BreakBeforeBinaryOperators: None
+
+# 三元操作符换行
+BreakBeforeTernaryOperators: true
+
+# 字符串字面量换行
+BreakStringLiterals: true
+
+# 模板参数换行
+AlwaysBreakTemplateDeclarations: true
+
+# 注释格式化
+ReflowComments: true
+
+# 宏定义缩进
+IndentPPDirectives: None
+
+# 修复命名空间结尾注释
+FixNamespaceComments: true
+
+# 空格设置
+SpaceAfterCStyleCast: false
+SpaceAfterTemplateKeyword: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+# 语言特定设置
+Standard: c++17
