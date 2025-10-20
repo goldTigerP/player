@@ -73,7 +73,7 @@ include_directories(
 # 源文件收集 - 只包含实际存在的文件
 set(CORE_SOURCES
     # 暂时不包含未实现的核心文件
-    # src/core/MediaManager.cpp
+    src/core/FFmpegMediaDetector.cpp
 )
 
 set(UI_SOURCES
@@ -101,6 +101,7 @@ set(HEADERS
 # 主程序源文件
 set(MAIN_SOURCES
     src/main.cpp
+    ${CORE_SOURCES}
     ${UI_SOURCES}
     ${MEDIA_SOURCES}
     ${HEADERS}
