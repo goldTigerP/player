@@ -1,13 +1,44 @@
+# 构建目录
+build/
+build-*/
+out/
+
+# CMake生成的文件
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Qt相关
+*.user
+*.user.*
+*.qmlc
+*.jsc
+qrc_*.cpp
+ui_*.h
+moc_*.cpp
+*_automoc.cpp
+
+# 编译产物
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+*.exp
+*.pdb
+*.ilk
+
 # Prerequisites
 *.d
 
 # Compiled Object files
 *.slo
 *.lo
-*.o
-*.obj
-
-# Precompiled Headers
 *.gch
 *.pch
 
