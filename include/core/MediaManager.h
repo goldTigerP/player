@@ -5,10 +5,11 @@
 #include <QStringList>
 #include <QFileInfo>
 #include <QDir>
+#include <QDateTime>
 #include <memory>
 
-#include "MediaPlayer.h"
-#include "ImageViewer.h"
+#include "media/MediaPlayer.h"
+#include "media/ImageViewer.h"
 
 enum class MediaFileType {
     Unknown,

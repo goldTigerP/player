@@ -70,3 +70,11 @@ moc_*.cpp
 
 # debug information files
 *.dwo
+
+# VS Code 本地配置文件（因设备而异，不应版本控制）
+.vscode/c_cpp_properties.json
+.vscode/settings.json
+compile_commands.json
+
+# VS Code 工作区文件可以保留，因为它不包含本地路径
+# .vscode/SETUP.md 可以保留作为设置说明

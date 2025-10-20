@@ -1,32 +1,6 @@
 <RCC>
-    <qresource prefix="/icons">
-        <!-- 播放控制图标 -->
-        <file>play.png</file>
-        <file>pause.png</file>
-        <file>stop.png</file>
-        <file>previous.png</file>
-        <file>next.png</file>
-        <file>volume.png</file>
-        <file>mute.png</file>
-        
-        <!-- 文件操作图标 -->
-        <file>open.png</file>
-        <file>folder.png</file>
-        <file>save.png</file>
-        
-        <!-- 视图控制图标 -->
-        <file>fullscreen.png</file>
-        <file>zoom_in.png</file>
-        <file>zoom_out.png</file>
-        <file>fit_window.png</file>
-        <file>actual_size.png</file>
-        
-        <!-- 应用程序图标 -->
-        <file>app_icon.png</file>
-    </qresource>
-    
     <qresource prefix="/stylesheets">
-        <file>dark_theme.qss</file>
-        <file>light_theme.qss</file>
+        <!-- 暂时注释掉图标，以便项目能够编译 -->
+        <!-- 后续可以添加实际的图标文件 -->
     </qresource>
 </RCC>

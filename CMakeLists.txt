@@ -24,6 +24,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
+# 生成compile_commands.json用于IDE智能感知
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # 编译选项
 if(MSVC)
     add_compile_options(/W4)
@@ -35,14 +38,24 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # 查找依赖包
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Multimedia MultimediaWidgets OpenGL)
+# 优先查找Qt6，如果没有则使用Qt5
+find_package(Qt6 QUIET COMPONENTS Core Widgets Multimedia MultimediaWidgets OpenGL)
+if(NOT Qt6_FOUND)
+    find_package(Qt5 REQUIRED COMPONENTS Core Widgets Multimedia MultimediaWidgets OpenGL)
+    set(QT_VERSION_MAJOR 5)
+    message(STATUS "Using Qt5: ${Qt5_VERSION}")
+else()
+    set(QT_VERSION_MAJOR 6)
+    message(STATUS "Using Qt6: ${Qt6_VERSION}")
+endif()
+
 find_package(PkgConfig REQUIRED)
 find_package(OpenCV REQUIRED)
 
 # 查找FFmpeg
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindFFmpeg.cmake)
 
-# 设置Qt6自动处理
+# 设置Qt自动处理
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
@@ -57,37 +70,75 @@ include_directories(
     ${FFMPEG_INCLUDE_DIRS}
 )
 
-# 源文件收集
-file(GLOB_RECURSE CORE_SOURCES "src/core/*.cpp")
-file(GLOB_RECURSE UI_SOURCES "src/ui/*.cpp")
-file(GLOB_RECURSE MEDIA_SOURCES "src/media/*.cpp")
-file(GLOB_RECURSE HEADERS "include/**/*.h")
+# 源文件收集 - 只包含实际存在的文件
+set(CORE_SOURCES
+    # 暂时不包含未实现的核心文件
+    # src/core/MediaManager.cpp
+)
+
+set(UI_SOURCES
+    # 暂时不包含未实现的UI文件
+    src/ui/MainWindow.cpp
+    # src/ui/MediaDisplayWidget.cpp
+    # src/ui/PlaylistWidget.cpp
+)
+
+set(MEDIA_SOURCES
+    src/media/MediaPlayer.cpp
+    src/media/ImageViewer.cpp
+)
+
+set(HEADERS
+    # 只包含已实现类的头文件
+    include/media/MediaPlayer.h
+    include/media/ImageViewer.h
+    include/ui/MainWindow.h
+    # include/core/MediaManager.h
+    # include/ui/MediaDisplayWidget.h
+    # include/ui/PlaylistWidget.h
+)
 
 # 主程序源文件
 set(MAIN_SOURCES
     src/main.cpp
-    ${CORE_SOURCES}
     ${UI_SOURCES}
     ${MEDIA_SOURCES}
     ${HEADERS}
 )
 
 # 资源文件
-qt6_add_resources(RESOURCES resources/resources.qrc)
-
-# 创建可执行文件
-qt6_add_executable(MultimediaPlayer ${MAIN_SOURCES} ${RESOURCES})
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt6_add_resources(RESOURCES resources/resources.qrc)
+    # 创建可执行文件
+    qt6_add_executable(MultimediaPlayer ${MAIN_SOURCES} ${RESOURCES})
+else()
+    qt5_add_resources(RESOURCES resources/resources.qrc)
+    # 创建可执行文件
+    add_executable(MultimediaPlayer ${MAIN_SOURCES} ${RESOURCES})
+endif()
 
 # 链接库
-target_link_libraries(MultimediaPlayer
-    Qt6::Core
-    Qt6::Widgets
-    Qt6::Multimedia
-    Qt6::MultimediaWidgets
-    Qt6::OpenGL
-    ${OpenCV_LIBS}
-    ${FFMPEG_LIBRARIES}
-)
+if(QT_VERSION_MAJOR EQUAL 6)
+    target_link_libraries(MultimediaPlayer
+        Qt6::Core
+        Qt6::Widgets
+        Qt6::Multimedia
+        Qt6::MultimediaWidgets
+        Qt6::OpenGL
+        ${OpenCV_LIBS}
+        ${FFMPEG_LIBRARIES}
+    )
+else()
+    target_link_libraries(MultimediaPlayer
+        Qt5::Core
+        Qt5::Widgets
+        Qt5::Multimedia
+        Qt5::MultimediaWidgets
+        Qt5::OpenGL
+        ${OpenCV_LIBS}
+        ${FFMPEG_LIBRARIES}
+    )
+endif()
 
 # 平台特定的链接设置
 if(WIN32)

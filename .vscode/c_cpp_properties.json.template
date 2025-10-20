@@ -1,0 +1,78 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/core",
+                "${workspaceFolder}/include/ui", 
+                "${workspaceFolder}/include/media",
+                "请根据你的系统更新以下路径：",
+                "/usr/include/x86_64-linux-gnu/qt5",
+                "/usr/include/x86_64-linux-gnu/qt5/QtCore",
+                "/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+                "/usr/include/x86_64-linux-gnu/qt5/QtGui",
+                "/usr/include/x86_64-linux-gnu/qt5/QtMultimedia",
+                "/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets",
+                "/usr/include/x86_64-linux-gnu/qt5/QtOpenGL",
+                "/usr/include/opencv4",
+                "/usr/include/opencv4/opencv2",
+                "/usr/include/x86_64-linux-gnu",
+                "/usr/include",
+                "/usr/local/include"
+            ],
+            "defines": [
+                "QT_CORE_LIB",
+                "QT_WIDGETS_LIB", 
+                "QT_GUI_LIB",
+                "QT_MULTIMEDIA_LIB",
+                "QT_MULTIMEDIAWIDGETS_LIB",
+                "QT_OPENGL_LIB",
+                "PLATFORM_LINUX"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerArgs": [
+                "-std=c++17",
+                "-Wall",
+                "-Wextra"
+            ],
+            "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "Windows",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/core",
+                "${workspaceFolder}/include/ui", 
+                "${workspaceFolder}/include/media",
+                "请根据你的 Qt 安装路径更新：",
+                "C:/Qt/6.x.x/msvc2019_64/include",
+                "C:/Qt/6.x.x/msvc2019_64/include/QtCore",
+                "C:/Qt/6.x.x/msvc2019_64/include/QtWidgets",
+                "C:/Qt/6.x.x/msvc2019_64/include/QtGui",
+                "请根据你的 OpenCV 安装路径更新：",
+                "C:/opencv/build/include",
+                "请根据你的 FFmpeg 安装路径更新：",
+                "C:/ffmpeg/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "QT_CORE_LIB",
+                "QT_WIDGETS_LIB", 
+                "QT_GUI_LIB",
+                "PLATFORM_WINDOWS"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64"
+        }
+    ],
+    "version": 4
+}

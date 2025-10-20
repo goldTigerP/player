@@ -46,6 +46,26 @@
 - CMake 3.16+
 - C++17 编译器
 
+## 开发环境配置
+
+### VS Code 配置（推荐）
+
+#### Linux 用户
+```bash
+# 自动配置 VS Code 开发环境
+./scripts/setup_vscode.sh
+```
+
+#### Windows 用户
+```cmd
+REM 自动配置 VS Code 开发环境
+scripts\setup_vscode.bat
+```
+
+注意：Windows 脚本会生成带有占位符的配置文件，你需要手动更新其中的路径。
+
+详细配置说明请参考：[VS Code 配置指南](.vscode/SETUP.md)
+
 ## 安装和编译
 
 ### Ubuntu/Debian 依赖安装

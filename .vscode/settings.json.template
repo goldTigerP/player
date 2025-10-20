@@ -1,0 +1,24 @@
+{
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.configureArgs": [
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    ],
+    "cmake.generator": "Unix Makefiles",
+    "files.associations": {
+        "*.h": "cpp",
+        "*.cpp": "cpp",
+        "*.cmake": "cmake",
+        "CMakeLists.txt": "cmake"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "C_Cpp.errorSquiggles": "enabled",
+    
+    "_comment": "以下是 Windows 用户的参考配置，请根据需要取消注释并修改：",
+    "_cmake.generator_windows": "Visual Studio 16 2019",
+    "_C_Cpp.default.intelliSenseMode_windows": "windows-msvc-x64",
+    "_C_Cpp.default.compilerPath_windows": "cl.exe"
+}

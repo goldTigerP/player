@@ -9,7 +9,7 @@
 #include <QtCore/QTimer>
 #include <memory>
 
-#include "MediaManager.h"
+#include "core/MediaManager.h"
 
 class MediaDisplayWidget : public QWidget {
     Q_OBJECT
