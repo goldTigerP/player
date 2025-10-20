@@ -7,7 +7,6 @@
 #include <QStyleFactory>
 #include <QTimer>
 
-// 暂时注释掉复杂的MainWindow，使用简单版本
 #include <QAction>
 #include <QLabel>
 #include <QMainWindow>

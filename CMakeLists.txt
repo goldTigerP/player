@@ -62,48 +62,26 @@ set(CMAKE_AUTORCC ON)
 
 # 包含目录
 include_directories(
+    ${OpenCV_INCLUDE_DIRS}
+    ${FFMPEG_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include/core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ui
     ${CMAKE_CURRENT_SOURCE_DIR}/include/media
-    ${OpenCV_INCLUDE_DIRS}
-    ${FFMPEG_INCLUDE_DIRS}
 )
 
-# 源文件收集 - 只包含实际存在的文件
-set(CORE_SOURCES
-    # 暂时不包含未实现的核心文件
-    src/core/FFmpegMediaDetector.cpp
-)
+file(GLOB_RECURSE HEADERS "include/*.h")
 
-set(UI_SOURCES
-    # 暂时不包含未实现的UI文件
-    src/ui/MainWindow.cpp
-    # src/ui/MediaDisplayWidget.cpp
-    # src/ui/PlaylistWidget.cpp
-)
-
-set(MEDIA_SOURCES
-    src/media/MediaPlayer.cpp
-    src/media/ImageViewer.cpp
-)
-
-set(HEADERS
-    # 只包含已实现类的头文件
-    include/media/MediaPlayer.h
-    include/media/ImageViewer.h
-    include/ui/MainWindow.h
-    # include/core/MediaManager.h
-    # include/ui/MediaDisplayWidget.h
-    # include/ui/PlaylistWidget.h
-)
+file(GLOB_RECURSE CORE_SOURCES "src/core/*.cpp")
+file(GLOB_RECURSE MEDIA_SOURCES "src/media/*.cpp")
+file(GLOB_RECURSE UI_SOURCES "src/ui/*.cpp")
 
 # 主程序源文件
 set(MAIN_SOURCES
     src/main.cpp
     ${CORE_SOURCES}
-    ${UI_SOURCES}
     ${MEDIA_SOURCES}
+    ${UI_SOURCES}
     ${HEADERS}
 )
 
