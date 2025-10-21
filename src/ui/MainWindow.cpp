@@ -22,6 +22,8 @@ MainWindow::~MainWindow() {
 void MainWindow::setupUI() {
     // 创建中央部件
     m_centralWidget = new QTabWidget(this);
+    m_centralWidget->setTabsClosable(true);
+    connect(m_centralWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     setCentralWidget(m_centralWidget);
 
     // 创建菜单栏
@@ -58,21 +60,12 @@ void MainWindow::openFile() {
         auto fileBaseName = QFileInfo(fileName).baseName();
         auto fileType = FFmpegMediaDetector::detectMediaType(fileName);
         if (fileType == MediaType::Image) {
-            auto widget = ImageWidget::createImageWidget(m_centralWidget);
-            widget->hide();
+            auto widget = ImageWidget::createImageWidget(nullptr);
             widget->loadImage(fileName);
             auto index = m_centralWidget->addTab((QWidget *)widget, fileBaseName);
             m_centralWidget->setCurrentIndex(index);
-            widget->show();
         }
         statusBar()->showMessage(QString("打开文件: %1").arg(fileBaseName));
-    }
-}
-
-void MainWindow::openFile(const QString &filePath) {
-    if (!filePath.isEmpty()) {
-        statusBar()->showMessage(QString("打开文件: %1").arg(QFileInfo(filePath).baseName()));
-        // TODO: 实际的文件打开逻辑
     }
 }
 
@@ -81,6 +74,31 @@ void MainWindow::showAbout() {
                        "多媒体播放器 v1.0\n\n"
                        "基于 Qt, FFmpeg 和 OpenCV 构建的跨平台多媒体播放器\n\n"
                        "支持视频播放、音频播放和图片查看功能");
+}
+
+void MainWindow::closeTab(int index) {
+    if (index < 0 || index >= m_centralWidget->count()) {
+        qDebug() << "无效的tab索引:" << index;
+        return;
+    }
+
+    QWidget *widget = m_centralWidget->widget(index);
+    QString tabText = m_centralWidget->tabText(index);
+
+    // // 询问用户是否确认关闭
+    // QMessageBox::StandardButton reply =
+    //     QMessageBox::question(this, "确认关闭", QString("确定要关闭 '%1' 吗？").arg(tabText),
+    //                           QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+
+    // if (reply != QMessageBox::Yes) {
+    //     return;
+    // }
+
+    m_centralWidget->removeTab(index);
+    widget->deleteLater();
+
+    // 更新状态栏
+    statusBar()->showMessage(QString("已关闭: %1").arg(tabText), 2000);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

@@ -14,21 +14,19 @@
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
-  public:
+public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    // 公共方法
-    void openFile(const QString &filePath);
-
-  protected:
+protected:
     void closeEvent(QCloseEvent *event) override;
 
-  private slots:
+private slots:
     void openFile();
     void showAbout();
+    void closeTab(int index);
 
-  private:
+private:
     // 私有方法
     void setupUI();
     void setupMenus();
