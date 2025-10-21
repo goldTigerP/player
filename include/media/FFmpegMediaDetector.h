@@ -10,7 +10,6 @@ extern "C" {
 #include <libavutil/avutil.h>
 }
 
-
 enum MediaType {
     Unknown = 0,
     Video = 1,
@@ -62,13 +61,12 @@ struct MediaInfo {
     int subtitleStreamCount = 0;
 };
 
-
 class FFmpegMediaDetector {
-  public:
+public:
     // 🎯 主要检测方法
-    static MediaType detectMediaType(const QString& filePath);
-    static MediaInfo getDetailedMediaInfo(const QString& filePath);
-    static bool isValidMediaFile(const QString& filePath);
+    static MediaType detectMediaType(const QString &filePath);
+    static MediaInfo getDetailedMediaInfo(const QString &filePath);
+    static bool isValidMediaFile(const QString &filePath);
 
     // 🔍 编解码器分类方法
     static MediaType getMediaTypeByCodecId(AVCodecID codecId);
@@ -87,14 +85,14 @@ class FFmpegMediaDetector {
     static QStringList getSupportedImageCodecs();
 
     // 🔧 调试方法
-    static void printMediaInfo(const MediaInfo& info);
+    static void printMediaInfo(const MediaInfo &info);
     static void enableDebugOutput(bool enable);
 
-  private:
-    static MediaType analyzeStreamsByCodecId(AVFormatContext* formatContext,
-                                             MediaInfo* detailInfo = nullptr);
-    static StreamInfo extractStreamInfo(AVFormatContext* formatContext, int streamIndex);
-    static void updateMediaInfoStatistics(MediaInfo& info);
+private:
+    static MediaType analyzeStreamsByCodecId(AVFormatContext *formatContext,
+                                             MediaInfo *detailInfo = nullptr);
+    static StreamInfo extractStreamInfo(AVFormatContext *formatContext, int streamIndex);
+    static void updateMediaInfoStatistics(MediaInfo &info);
 
     static bool s_debugEnabled;
 };

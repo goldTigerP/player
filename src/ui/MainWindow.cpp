@@ -1,5 +1,6 @@
 #include "ui/MainWindow.h"
-#include "core/FFmpegMediaDetector.h"
+
+#include "media/FFmpegMediaDetector.h"
 #include "ui/ImageWidget.h"
 #include <QApplication>
 #include <QFileDialog>
