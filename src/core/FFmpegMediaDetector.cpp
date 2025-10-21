@@ -5,7 +5,7 @@
 bool FFmpegMediaDetector::s_debugEnabled = true;
 
 // 🎯 主要检测方法 - 基于编解码器ID
-FFmpegMediaDetector::MediaType FFmpegMediaDetector::detectMediaType(const QString& filePath) {
+MediaType FFmpegMediaDetector::detectMediaType(const QString& filePath) {
     if (filePath.isEmpty() || !QFileInfo::exists(filePath)) {
         if (s_debugEnabled)
             qDebug() << "文件不存在:" << filePath;
@@ -50,7 +50,7 @@ FFmpegMediaDetector::MediaType FFmpegMediaDetector::detectMediaType(const QStrin
 }
 
 // 📊 获取详细媒体信息
-FFmpegMediaDetector::MediaInfo FFmpegMediaDetector::getDetailedMediaInfo(const QString& filePath) {
+MediaInfo FFmpegMediaDetector::getDetailedMediaInfo(const QString& filePath) {
     MediaInfo info;
     info.fileName = QFileInfo(filePath).fileName();
     info.fileSize = QFileInfo(filePath).size();
@@ -90,8 +90,8 @@ FFmpegMediaDetector::MediaInfo FFmpegMediaDetector::getDetailedMediaInfo(const Q
 }
 
 // 🔍 核心方法：基于编解码器ID分析流
-FFmpegMediaDetector::MediaType FFmpegMediaDetector::analyzeStreamsByCodecId(
-    AVFormatContext* formatContext, MediaInfo* detailInfo) {
+MediaType FFmpegMediaDetector::analyzeStreamsByCodecId(AVFormatContext* formatContext,
+                                                       MediaInfo* detailInfo) {
     if (!formatContext || formatContext->nb_streams == 0) {
         if (s_debugEnabled)
             qDebug() << "没有找到媒体流";
@@ -188,7 +188,7 @@ FFmpegMediaDetector::MediaType FFmpegMediaDetector::analyzeStreamsByCodecId(
 }
 
 // 🎯 根据编解码器ID获取媒体类型
-FFmpegMediaDetector::MediaType FFmpegMediaDetector::getMediaTypeByCodecId(AVCodecID codecId) {
+MediaType FFmpegMediaDetector::getMediaTypeByCodecId(AVCodecID codecId) {
     // 🖼️ 图片编解码器
     if (isImageCodec(codecId)) {
         return Image;
@@ -364,8 +364,7 @@ bool FFmpegMediaDetector::isSubtitleCodec(AVCodecID codecId) {
 }
 
 // 📊 提取流的详细信息
-FFmpegMediaDetector::StreamInfo FFmpegMediaDetector::extractStreamInfo(
-    AVFormatContext* formatContext, int streamIndex) {
+StreamInfo FFmpegMediaDetector::extractStreamInfo(AVFormatContext* formatContext, int streamIndex) {
     StreamInfo info;
     info.index = streamIndex;
 

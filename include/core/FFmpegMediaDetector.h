@@ -10,60 +10,61 @@ extern "C" {
 #include <libavutil/avutil.h>
 }
 
+
+enum MediaType {
+    Unknown = 0,
+    Video = 1,
+    Audio = 2,
+    Image = 3,
+    Subtitle = 4,
+    InvalidFile = -1,
+};
+struct StreamInfo {
+    int index;
+    MediaType type;
+    AVCodecID codecId;
+    QString codecName;
+    QString streamTypeString;
+
+    // 视频流特有信息
+    int width = 0;
+    int height = 0;
+    double fps = 0.0;
+
+    // 音频流特有信息
+    int sampleRate = 0;
+    int channels = 0;
+    int bitDepth = 0;
+
+    // 通用信息
+    int64_t bitrate = 0;
+    bool isAttachedPic = false;
+};
+
+struct MediaInfo {
+    MediaType primaryType = Unknown;
+    QString formatName;
+    QString fileName;
+    int64_t duration = 0;  // 微秒
+    int64_t fileSize = 0;  // 字节
+    QList<StreamInfo> streams;
+
+    // 快速访问
+    bool hasVideo = false;
+    bool hasAudio = false;
+    bool hasImage = false;
+    bool hasSubtitle = false;
+
+    // 统计信息
+    int videoStreamCount = 0;
+    int audioStreamCount = 0;
+    int imageStreamCount = 0;
+    int subtitleStreamCount = 0;
+};
+
+
 class FFmpegMediaDetector {
   public:
-    enum MediaType {
-        Unknown = 0,
-        Video = 1,
-        Audio = 2,
-        Image = 3,
-        Subtitle = 4,
-        InvalidFile = -1,
-    };
-
-    struct StreamInfo {
-        int index;
-        MediaType type;
-        AVCodecID codecId;
-        QString codecName;
-        QString streamTypeString;
-
-        // 视频流特有信息
-        int width = 0;
-        int height = 0;
-        double fps = 0.0;
-
-        // 音频流特有信息
-        int sampleRate = 0;
-        int channels = 0;
-        int bitDepth = 0;
-
-        // 通用信息
-        int64_t bitrate = 0;
-        bool isAttachedPic = false;
-    };
-
-    struct MediaInfo {
-        MediaType primaryType = Unknown;
-        QString formatName;
-        QString fileName;
-        int64_t duration = 0;  // 微秒
-        int64_t fileSize = 0;  // 字节
-        QList<StreamInfo> streams;
-
-        // 快速访问
-        bool hasVideo = false;
-        bool hasAudio = false;
-        bool hasImage = false;
-        bool hasSubtitle = false;
-
-        // 统计信息
-        int videoStreamCount = 0;
-        int audioStreamCount = 0;
-        int imageStreamCount = 0;
-        int subtitleStreamCount = 0;
-    };
-
     // 🎯 主要检测方法
     static MediaType detectMediaType(const QString& filePath);
     static MediaInfo getDetailedMediaInfo(const QString& filePath);

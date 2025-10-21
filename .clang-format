@@ -1,48 +1,53 @@
-# Clang-format 格式化配置
-# 基于 Google 风格，但自定义了缩进为 4 个空格
+---
+Language: Cpp
+BasedOnStyle: LLVM
 
-BasedOnStyle: Google
-
-# 缩进设置
+# 🎯 核心设置
+ColumnLimit: 100
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
 
-# 列宽限制
-ColumnLimit: 100
+# 🔧 访问修饰符设置（让public:顶格）
+AccessModifierOffset: -4
+IndentAccessModifiers: false
 
-# 函数格式化
-AllowShortFunctionsOnASingleLine: None
-AllowShortIfStatementsOnASingleLine: false
-AllowShortLoopsOnASingleLine: false
-AllowShortCaseLabelsOnASingleLine: false
+# 🔧 短代码块设置
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
 
-# 大括号设置
+# 🏗️ 大括号和换行设置
 BreakBeforeBraces: Attach
-Cpp11BracedListStyle: true
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
 
-# 指针和引用对齐
-PointerAlignment: Left
-
-# 访问说明符缩进
-AccessModifierOffset: -2
-
-# 命名空间缩进
-NamespaceIndentation: None
-
-# 构造函数初始化列表
+# 🎨 构造函数设置
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
-ContinuationIndentWidth: 4
 
-# 尾随逗号
-InsertTrailingCommas: None
+# 📐 对齐设置
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignOperands: true
+AlignTrailingComments: true
 
-# 排序 includes
+# 🔄 其他设置
 SortIncludes: true
 IncludeBlocks: Preserve
-
 # 空行
-MaxEmptyLinesToKeep: 2
+MaxEmptyLinesToKeep: 1
 KeepEmptyLinesAtTheStartOfBlocks: false
 
 # 二进制操作符换行
