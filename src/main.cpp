@@ -7,6 +7,7 @@
 #include <QStyleFactory>
 #include <QTimer>
 
+#include "ui/MainWindow.h"
 #include <QAction>
 #include <QLabel>
 #include <QMainWindow>
@@ -14,7 +15,6 @@
 #include <QMenuBar>
 #include <QVBoxLayout>
 #include <QWidget>
-#include "ui/MainWindow.h"
 
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -82,15 +82,14 @@ void setupApplicationStyle(QApplication &app) {
     app.setPalette(darkPalette);
 
     // 设置样式表
-    app.setStyleSheet(
-        "QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid "
-        "white; }"
-        "QSlider::groove:horizontal { border: 1px solid #999999; height: 8px; "
-        "background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, "
-        "stop:1 #c4c4c4); margin: 2px 0; }"
-        "QSlider::handle:horizontal { background: qlineargradient(x1:0, y1:0, "
-        "x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f); border: 1px solid #5c5c5c; "
-        "width: 18px; margin: -2px 0; border-radius: 3px; }");
+    app.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid "
+                      "white; }"
+                      "QSlider::groove:horizontal { border: 1px solid #999999; height: 8px; "
+                      "background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, "
+                      "stop:1 #c4c4c4); margin: 2px 0; }"
+                      "QSlider::handle:horizontal { background: qlineargradient(x1:0, y1:0, "
+                      "x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f); border: 1px solid #5c5c5c; "
+                      "width: 18px; margin: -2px 0; border-radius: 3px; }");
 }
 
 int main(int argc, char *argv[]) {

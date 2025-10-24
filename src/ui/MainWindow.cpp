@@ -2,6 +2,7 @@
 
 #include "media/FFmpegMediaDetector.h"
 #include "ui/ImageWidget.h"
+#include "ui/VideoWidget.h"
 #include <QApplication>
 #include <QFileDialog>
 #include <QLabel>
@@ -65,6 +66,11 @@ void MainWindow::openFile() {
             widget->loadImage(fileName);
             auto index = m_centralWidget->addTab((QWidget *)widget, fileBaseName);
             m_centralWidget->setCurrentIndex(index);
+        } else if (fileType == MediaType::Video) {
+            auto widget = VideoWidget::createVideoWidget(nullptr);
+            widget->loadVideo(fileName);
+            auto index = m_centralWidget->addTab((QWidget *)widget, fileBaseName);
+            m_centralWidget->setCurrentIndex(index);
         }
         statusBar()->showMessage(QString("打开文件: %1").arg(fileBaseName));
     }
@@ -105,4 +111,10 @@ void MainWindow::closeTab(int index) {
 void MainWindow::closeEvent(QCloseEvent *event) {
     // 保存设置等清理工作
     QMainWindow::closeEvent(event);
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    if (m_centralWidget != nullptr) {
+        m_centralWidget->resize(event->size().width(), event->size().height());
+    }
 }
