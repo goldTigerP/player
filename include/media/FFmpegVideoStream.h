@@ -14,6 +14,7 @@ public:
     void loadVideo(const QString &filePath);
     AVFrame *getPreviewImage();
     AVFrame *getNextFrame();
+    double getFps();
 
 private:
     AVFormatContext *m_formatContext{nullptr};

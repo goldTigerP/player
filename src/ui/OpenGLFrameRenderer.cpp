@@ -223,8 +223,6 @@ void OpenGLFrameRenderer::setupBuffers() {
 }
 
 void OpenGLFrameRenderer::renderFrame(AVFrame *frame) {
-    qDebug() << "render begin render frame";
-
     if (!frame || !frame->data[0]) {
         qDebug() << "无效的帧";
         return;
@@ -241,7 +239,6 @@ void OpenGLFrameRenderer::renderFrame(AVFrame *frame) {
     switch (frame->format) {
     case AV_PIX_FMT_YUV420P:
     case AV_PIX_FMT_YUVJ420P:
-        qDebug() << "render AV_PIX_FMT_YUVJ420P";
         m_currentShader = m_yuvShader;
         updateYUVTextures(frame);
         break;

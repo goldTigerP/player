@@ -10,9 +10,11 @@ class OpenGLVideoWidget : public VideoWidget {
 public:
     explicit OpenGLVideoWidget(QWidget *parent = nullptr) : VideoWidget(parent), m_render(this) {}
 
-    void showPreview() override;
-
     void resizeEvent(QResizeEvent *event) override;
+
+private:
+    void showPreview() override;
+    void updateFrame() override;
 
 private:
     OpenGLFrameRenderer m_render{};
