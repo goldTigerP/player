@@ -117,7 +117,6 @@ OpenGLFrameRenderer::~OpenGLFrameRenderer() {
 }
 
 void OpenGLFrameRenderer::initializeGL() {
-    qDebug() << __FILE__ << ":" << __LINE__;
     initializeOpenGLFunctions();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -132,13 +131,10 @@ void OpenGLFrameRenderer::initializeGL() {
     qDebug() << "OpenGL初始化完成";
     qDebug() << "OpenGL版本:" << (char *)glGetString(GL_VERSION);
 
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
     glGenTextures(1, &m_textureY);
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
     glGenTextures(1, &m_textureU);
     glGenTextures(1, &m_textureV);
     glGenTextures(1, &m_textureRGB);
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
 
     emit glReady();
 }
@@ -273,7 +269,6 @@ void OpenGLFrameRenderer::renderFrame(AVFrame *frame) {
 void OpenGLFrameRenderer::updateYUVTextures(AVFrame *frame) {
     qDebug() << "render updateYUVTextures";
 
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
     glBindTexture(GL_TEXTURE_2D, m_textureY);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frame->width, frame->height, 0, GL_RED, GL_UNSIGNED_BYTE,
                  frame->data[0]);
@@ -282,11 +277,9 @@ void OpenGLFrameRenderer::updateYUVTextures(AVFrame *frame) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
     int chromaWidth = frame->width / 2;
     int chromaHeight = frame->height / 2;
 
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
     glBindTexture(GL_TEXTURE_2D, m_textureU);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, chromaWidth, chromaHeight, 0, GL_RED, GL_UNSIGNED_BYTE,
                  frame->data[1]);
@@ -295,7 +288,6 @@ void OpenGLFrameRenderer::updateYUVTextures(AVFrame *frame) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
     glBindTexture(GL_TEXTURE_2D, m_textureV);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, chromaWidth, chromaHeight, 0, GL_RED, GL_UNSIGNED_BYTE,
                  frame->data[2]);
@@ -304,9 +296,7 @@ void OpenGLFrameRenderer::updateYUVTextures(AVFrame *frame) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
     glBindTexture(GL_TEXTURE_2D, 0);
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__;
 }
 
 void OpenGLFrameRenderer::updateRGBTexture(AVFrame *frame) {
@@ -329,8 +319,6 @@ void OpenGLFrameRenderer::updateRGBTexture(AVFrame *frame) {
 }
 
 void OpenGLFrameRenderer::paintGL() {
-    qDebug() << "render paintGL";
-
     glClear(GL_COLOR_BUFFER_BIT);
 
     if (!m_hasFrame || !m_currentShader) {
