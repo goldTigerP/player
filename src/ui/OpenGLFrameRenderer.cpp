@@ -97,8 +97,6 @@ OpenGLFrameRenderer::OpenGLFrameRenderer(QWidget *parent)
     format.setProfile(QSurfaceFormat::CoreProfile);
     format.setSamples(4);  // 抗锯齿
     setFormat(format);
-
-    qDebug() << "OpenGLFrameRenderer创建";
 }
 
 OpenGLFrameRenderer::~OpenGLFrameRenderer() {
@@ -128,7 +126,6 @@ void OpenGLFrameRenderer::initializeGL() {
     setupRGBShader();
     setupBuffers();
 
-    qDebug() << "OpenGL初始化完成";
     qDebug() << "OpenGL版本:" << (char *)glGetString(GL_VERSION);
 
     glGenTextures(1, &m_textureY);
@@ -156,8 +153,6 @@ void OpenGLFrameRenderer::setupYUVShader() {
         qDebug() << "YUV着色器链接失败:" << m_yuvShader->log();
         return;
     }
-
-    qDebug() << "YUV着色器创建成功";
 }
 
 void OpenGLFrameRenderer::setupRGBShader() {
@@ -177,8 +172,6 @@ void OpenGLFrameRenderer::setupRGBShader() {
         qDebug() << "RGB着色器链接失败:" << m_rgbShader->log();
         return;
     }
-
-    qDebug() << "RGB着色器创建成功";
 }
 
 void OpenGLFrameRenderer::setupBuffers() {

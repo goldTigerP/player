@@ -2,8 +2,6 @@
 #include <QDebug>
 
 void FFmpegVideoStream::loadVideo(const QString &filePath) {
-    qDebug() << "stream try loadVideo " << filePath;
-
     const char *filePathStr = filePath.toUtf8().constData();
 
     int errorCode = 0;
@@ -23,7 +21,6 @@ void FFmpegVideoStream::loadVideo(const QString &filePath) {
         qDebug() << "解析文件失败！未找到视频流！";
         return;
     }
-    qDebug() << "视频流索引：" << m_videoStreamIndex;
 
     auto &stream = m_formatContext->streams[m_videoStreamIndex];
     m_codec = avcodec_find_decoder(stream->codecpar->codec_id);
@@ -49,7 +46,7 @@ void FFmpegVideoStream::loadVideo(const QString &filePath) {
         m_duration = double(m_formatContext->duration) / AV_TIME_BASE;
     }
 
-    qDebug() << "视频加载成功:" << filePath;
+    qDebug() << "视频信息:";
     qDebug() << "分辨率:" << m_codecContext->width << "x" << m_codecContext->height;
     qDebug() << "时长:" << m_duration << "秒";
 
@@ -105,6 +102,7 @@ double FFmpegVideoStream::getFps() {
     if (stream->avg_frame_rate.num > 0 && stream->avg_frame_rate.den > 0) {
         auto avgRate = av_q2d(stream->avg_frame_rate);
         if (avgRate != 0) {
+            qDebug() << "视频帧率:" << avgRate;
             return avgRate;
         }
     }
@@ -112,9 +110,11 @@ double FFmpegVideoStream::getFps() {
     if (stream->r_frame_rate.num > 0 && stream->r_frame_rate.den > 0) {
         auto rRate = av_q2d(stream->r_frame_rate);
         if (rRate != 0) {
+            qDebug() << "视频帧率:" << rRate;
             return rRate;
         }
     }
 
+    qDebug() << "获取视频帧率失败，设置为默认值 30";
     return 30;
 }
