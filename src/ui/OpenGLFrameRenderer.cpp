@@ -267,48 +267,75 @@ void OpenGLFrameRenderer::renderFrame(AVFrame *frame) {
 }
 
 void OpenGLFrameRenderer::updateYUVTextures(AVFrame *frame) {
-    qDebug() << "render updateYUVTextures";
+    auto updateTextures = [this](GLuint texId, int lineSize, int width, int height,
+                                 const uint8_t *data) -> void {
+        glBindTexture(GL_TEXTURE_2D, texId);
 
-    glBindTexture(GL_TEXTURE_2D, m_textureY);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frame->width, frame->height, 0, GL_RED, GL_UNSIGNED_BYTE,
-                 frame->data[0]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        if (lineSize == width) {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE,
+                         data);
+        } else {
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, lineSize);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE,
+                         data);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+        }
 
-    int chromaWidth = frame->width / 2;
-    int chromaHeight = frame->height / 2;
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    };
 
-    glBindTexture(GL_TEXTURE_2D, m_textureU);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, chromaWidth, chromaHeight, 0, GL_RED, GL_UNSIGNED_BYTE,
-                 frame->data[1]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    glBindTexture(GL_TEXTURE_2D, m_textureV);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, chromaWidth, chromaHeight, 0, GL_RED, GL_UNSIGNED_BYTE,
-                 frame->data[2]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    updateTextures(m_textureY, frame->linesize[0], frame->width, frame->height, frame->data[0]);
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+    int chromaWidth = (frame->width + 1) / 2;
+    int chromaHeight = (frame->height + 1) / 2;
+    updateTextures(m_textureU, frame->linesize[1], chromaWidth, chromaHeight, frame->data[1]);
+    updateTextures(m_textureV, frame->linesize[2], chromaWidth, chromaHeight, frame->data[2]);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
 void OpenGLFrameRenderer::updateRGBTexture(AVFrame *frame) {
+    qDebug() << "render updateRGBTexture";
+    qDebug() << "Frame size:" << frame->width << "x" << frame->height;
+    qDebug() << "Linesize:" << frame->linesize[0];
+
     if (m_textureRGB == 0) {
         glGenTextures(1, &m_textureRGB);
     }
 
     glBindTexture(GL_TEXTURE_2D, m_textureRGB);
 
-    GLenum format = (frame->format == AV_PIX_FMT_RGB24) ? GL_RGB : GL_RGBA;
-    glTexImage2D(GL_TEXTURE_2D, 0, format, frame->width, frame->height, 0, format, GL_UNSIGNED_BYTE,
-                 frame->data[0]);
+    // ✅ 设置像素对齐
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    GLenum format = GL_RGB;
+    int bytesPerPixel = 3;
+
+    if (frame->format == AV_PIX_FMT_RGBA || frame->format == AV_PIX_FMT_BGRA) {
+        format = GL_RGBA;
+        bytesPerPixel = 4;
+    }
+
+    // ✅ 处理 BGR/BGRA 格式
+    if (frame->format == AV_PIX_FMT_BGRA || frame->format == AV_PIX_FMT_BGR24) {
+        format = (frame->format == AV_PIX_FMT_BGRA) ? GL_BGRA : GL_BGR;
+    }
+
+    // ✅ 检查stride
+    int expectedLinesize = frame->width * bytesPerPixel;
+    if (frame->linesize[0] == expectedLinesize) {
+        glTexImage2D(GL_TEXTURE_2D, 0, (bytesPerPixel == 4) ? GL_RGBA : GL_RGB, frame->width,
+                     frame->height, 0, format, GL_UNSIGNED_BYTE, frame->data[0]);
+    } else {
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, frame->linesize[0] / bytesPerPixel);
+        glTexImage2D(GL_TEXTURE_2D, 0, (bytesPerPixel == 4) ? GL_RGBA : GL_RGB, frame->width,
+                     frame->height, 0, format, GL_UNSIGNED_BYTE, frame->data[0]);
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    }
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -316,6 +343,7 @@ void OpenGLFrameRenderer::updateRGBTexture(AVFrame *frame) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBindTexture(GL_TEXTURE_2D, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
 void OpenGLFrameRenderer::paintGL() {
