@@ -39,7 +39,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # 查找依赖包
 # 优先查找Qt6，如果没有则使用Qt5
-find_package(Qt6 QUIET COMPONENTS Core Widgets Multimedia MultimediaWidgets OpenGL)
+find_package(Qt6 QUIET COMPONENTS Core Widgets Multimedia MultimediaWidgets OpenGL OpenGLWidgets)
 if(NOT Qt6_FOUND)
     find_package(Qt5 REQUIRED COMPONENTS Core Widgets Multimedia MultimediaWidgets OpenGL)
     set(QT_VERSION_MAJOR 5)
@@ -89,7 +89,7 @@ set(MAIN_SOURCES
 if(QT_VERSION_MAJOR EQUAL 6)
     qt6_add_resources(RESOURCES resources/resources.qrc)
     # 创建可执行文件
-    qt6_add_executable(MultimediaPlayer ${MAIN_SOURCES} ${RESOURCES})
+    add_executable(MultimediaPlayer ${MAIN_SOURCES} ${RESOURCES})
 else()
     qt5_add_resources(RESOURCES resources/resources.qrc)
     # 创建可执行文件
@@ -104,6 +104,7 @@ if(QT_VERSION_MAJOR EQUAL 6)
         Qt6::Multimedia
         Qt6::MultimediaWidgets
         Qt6::OpenGL
+        Qt6::OpenGLWidgets
         ${OpenCV_LIBS}
         ${FFMPEG_LIBRARIES}
     )
