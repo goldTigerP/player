@@ -235,7 +235,6 @@ void AudioPlayer::start() {
         return;
     }
 
-    qDebug() << "AudioPlayer: Starting playback";
     m_audioSink->start(m_audioBuffer);
     m_positionTimer->start();
 }
@@ -302,7 +301,7 @@ void AudioPlayer::onAudioStateChanged() {
     if (!m_audioSink) return;
 
     QAudio::State state = m_audioSink->state();
-    qDebug() << "AudioPlayer: State changed to" << state;
+    // qDebug() << "AudioPlayer: State changed to" << state;
     emit stateChanged(static_cast<int>(state));
 
     switch (state) {
@@ -311,9 +310,9 @@ void AudioPlayer::onAudioStateChanged() {
             qDebug() << "AudioPlayer: Error occurred:" << m_audioSink->error();
         }
         break;
-    case QAudio::ActiveState: qDebug() << "AudioPlayer: Playback active"; break;
-    case QAudio::SuspendedState: qDebug() << "AudioPlayer: Playback suspended"; break;
-    case QAudio::IdleState: qDebug() << "AudioPlayer: Playback idle"; break;
+        // case QAudio::ActiveState: qDebug() << "AudioPlayer: Playback active"; break;
+        // case QAudio::SuspendedState: qDebug() << "AudioPlayer: Playback suspended"; break;
+        // case QAudio::IdleState: qDebug() << "AudioPlayer: Playback idle"; break;
     }
 }
 

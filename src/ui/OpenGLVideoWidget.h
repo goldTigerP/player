@@ -12,7 +12,10 @@ public:
 
     void resizeEvent(QResizeEvent *event) override;
 
-private:
+signals:
+    void timeUpdated(double pts);
+
+protected:
     void showPreview() override;
     void updateFrame() override;
 

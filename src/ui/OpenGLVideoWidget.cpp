@@ -1,4 +1,5 @@
 #include "OpenGLVideoWidget.h"
+#include "AudioPlayer.h"
 
 void OpenGLVideoWidget::showPreview() {
     connect(&m_render, &OpenGLFrameRenderer::glReady,
@@ -12,4 +13,15 @@ void OpenGLVideoWidget::resizeEvent(QResizeEvent *event) {
     VideoWidget::resizeEvent(event);
 }
 
-void OpenGLVideoWidget::updateFrame() { m_render.renderFrame(m_videoStream.getNextFrame()); }
+void OpenGLVideoWidget::updateFrame() {
+    // 只处理视频帧渲染
+    double videoPts = 0.0;
+    AVFrame *videoFrame = m_videoStream.getNextVideoFrame(&videoPts);
+    if (videoFrame) {
+        m_render.renderFrame(videoFrame);
+        m_currentTime = videoPts;
+
+        // 通知父组件时间更新（用于音视频同步）
+        emit timeUpdated(videoPts);
+    }
+}
